@@ -1,0 +1,23 @@
+body,html,*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+nav{
+    background: blueviolet;
+    color: white;
+    height: 30px;
+}
+nav>ul{
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+nav>ul>li{
+    color: #fefefe;
+}
+nav>ul>li>a{
+    color: #fefefe;
+    /* font-style: normal; */
+    text-decoration: none;
+}

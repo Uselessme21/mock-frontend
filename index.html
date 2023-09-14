@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./admin/css/styles.css">
+    <title>Home</title>
+</head>
+<body>
+    <div id="home-container">
+        <h1>Welcome</h1>
+        <div>
+            <button id="admin-button">Admin Section</button>
+            <button id="user-button">User Section</button>
+        </div>
+      
+    </div>
+    
+</body>
+</html>
+<script>
+    
+function handleButtonClick(event) {
+    const buttonId = event.target.id;
+
+    if (buttonId === 'admin-button') {
+        // Navigate 
+        const token = localStorage.getItem('adminToken');
+        if(token){
+            window.location.href = 'admin/dashboard.html';
+        }else{
+            window.location.href = 'admin/login.html';
+        }
+       
+    } else if (buttonId === 'user-button') {
+        // Navigate 
+        window.location.href = 'register.html';
+        
+    }
+}
+
+// Attach
+const adminButton = document.getElementById('admin-button');
+const userButton = document.getElementById('user-button');
+
+adminButton.addEventListener('click', handleButtonClick);
+userButton.addEventListener('click', handleButtonClick);
+
+
+
+function navigateTo(route) {
+    if (route === '' || route === 'reports.html') {
+        if (!isLoggedIn()) {
+            alert('You need to log in first.');
+            return;
+        }
+    }
+    window.location.href = route;
+}
+</script>

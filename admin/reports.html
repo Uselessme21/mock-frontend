@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <title>Reports</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="reports.html">Reports</a></li>
+        </ul>
+    </nav>
+    
+        <div id="reports-container">
+            <h2>Reports</h2>
+            <table id="report-table">
+                <thead>
+                    <tr>
+                        <th>Report</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+            </table>
+        </div>
+        
+    <script src="js/app.js"></script>
+   
+</body>
+</html>
+<script>
+   
+function calculateAndDisplayReport() {
+
+const adminToken = localStorage.getItem('adminToken');
+
+
+    
+    if (!adminToken) {
+        alert('You need to log in first.');
+        navigateTo('login.html');
+        return;
+    }
+fetch('https://mock-b.onrender.com/dogs', {
+    headers: {
+        'Authorization': `Bearer ${adminToken}`
+    }
+})
+.then(response => response.json())
+.then(data => {
+   
+    const totalDogs = data.length;
+    const femaleDogs = data.filter(dog => dog.gender === 'Female').length;
+    const maleDogs = data.filter(dog => dog.gender === 'Male').length;
+
+    const totalAge = data.reduce((total, dog) => total + dog.age, 0);
+    const averageAge = totalAge / totalDogs;
+
+   
+    const reportTable = document.getElementById('report-table');
+    const reportTableBody = reportTable.querySelector('tbody');
+    reportTableBody.innerHTML = '';
+
+    appendReportRow(reportTableBody, 'Total Dogs Attending', totalDogs);
+    appendReportRow(reportTableBody, 'Female Dogs Attending', femaleDogs);
+    appendReportRow(reportTableBody, 'Male Dogs Attending', maleDogs);
+    appendReportRow(reportTableBody, 'Average Age Group', averageAge.toFixed(2));
+})
+.catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred while calculating the report. Please try again later.');
+});
+}
+
+function appendReportRow(tableBody, report, value) {
+const row = document.createElement('tr');
+row.innerHTML = `
+    <td>${report}</td>
+    <td>${value}</td>
+`;
+tableBody.appendChild(row);
+}
+
+window.addEventListener('load', () => {
+calculateAndDisplayReport();
+});
+
+</script>
